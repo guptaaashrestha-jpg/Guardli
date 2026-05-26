@@ -19,6 +19,7 @@ import { refreshScrollAnimations } from './animations.js';
 import { render as renderShield } from './views/ShieldView.js';
 import { render as renderDashboard } from './views/DashboardView.js';
 import { render as renderPricing } from './views/PricingView.js';
+import { render as renderAuth } from './views/AuthView.js';
 import { threats } from './data/mockData.js';
 
 // ─── Boot Sequence ───
@@ -89,6 +90,8 @@ function renderCurrentView() {
     renderShield(app);
   } else if (view === 'pricing') {
     renderPricing(app);
+  } else if (view === 'auth') {
+    renderAuth(app);
   } else {
     renderDashboard(app);
   }
@@ -130,6 +133,9 @@ function initRoleSwitcher() {
     </button>
     <button class="role-switcher-btn" data-view="pricing">
       💎 Pricing
+    </button>
+    <button class="role-switcher-btn" data-view="auth">
+      🔐 Sign In
     </button>
   `;
 
