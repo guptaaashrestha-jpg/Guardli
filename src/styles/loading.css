@@ -1,0 +1,90 @@
+/* ============================================
+   GUARDLI — LOADING SCREEN
+   The first impression. Make it count.
+   ============================================ */
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-loading);
+  transition: opacity 0.9s var(--ease-out), visibility 0.9s;
+}
+
+.loading-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.loading-shield {
+  width: 80px;
+  height: 96px;
+  filter: drop-shadow(0 0 20px var(--accent-mint-glow));
+}
+
+.shield-path {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: shieldDraw 1.6s var(--ease-out) 0.2s forwards;
+}
+
+.shield-check {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: checkDraw 0.7s var(--ease-out) 1.2s forwards;
+}
+
+.loading-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.loading-brand {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-caps);
+  color: var(--text-primary);
+  opacity: 0;
+  animation: fadeUp 0.7s var(--ease-out) 0.9s forwards;
+}
+
+.loading-tagline {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  letter-spacing: var(--tracking-wide);
+  opacity: 0;
+  animation: fadeUp 0.5s var(--ease-out) 1.4s forwards;
+}
+
+.loading-bar {
+  width: 180px;
+  height: 2px;
+  background: var(--border-subtle);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeIn 0.3s ease 1.6s forwards;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-mint), var(--accent-sky));
+  border-radius: var(--radius-full);
+  animation: loadProgress 1.8s var(--ease-in-out) 1.7s forwards;
+}

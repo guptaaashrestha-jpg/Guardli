@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" class="loading-active">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Guardli — Non-intrusive digital guardian that protects your loved ones from scams, phishing, and fraud." />
+  <meta name="theme-color" content="#08090D" />
+  <title>Guardli — Your Digital Guardian</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Prevent flash of white -->
+  <style>
+    html, body { margin: 0; padding: 0; background: #08090D; }
+    html.loading-active, body.loading-active { overflow: hidden; height: 100vh; }
+  </style>
+</head>
+<body class="loading-active">
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-content">
+      <svg class="loading-shield" viewBox="0 0 100 120" width="80" height="96">
+        <path class="shield-path"
+          d="M50 5 L90 25 L90 60 C90 85 70 105 50 115 C30 105 10 85 10 60 L10 25 Z"
+          fill="none" stroke="#00E5A0" stroke-width="2" />
+        <path class="shield-check"
+          d="M30 60 L45 75 L70 45"
+          fill="none" stroke="#00E5A0" stroke-width="3"
+          stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <div class="loading-text">
+        <span class="loading-brand">GUARDLI</span>
+        <span class="loading-tagline">your digital guardian</span>
+      </div>
+      <div class="loading-bar">
+        <div class="loading-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Noise Texture Overlay -->
+  <div class="noise-overlay" id="noiseOverlay"></div>
+
+  <!-- Main Application -->
+  <div id="app"></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

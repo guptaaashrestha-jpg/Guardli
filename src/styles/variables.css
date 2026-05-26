@@ -1,0 +1,148 @@
+/* ============================================
+   GUARDLI DESIGN SYSTEM — TOKENS
+   No purple. No templates. No compromises.
+   ============================================ */
+
+:root {
+  /* ─── Dark Mode (Dashboard / Default) ─── */
+  --bg-deep: #08090D;
+  --bg-base: #0F1117;
+  --bg-surface: #181B25;
+  --bg-elevated: #1E2231;
+  --bg-glass: rgba(255, 255, 255, 0.03);
+  --bg-glass-hover: rgba(255, 255, 255, 0.07);
+  --bg-glass-active: rgba(255, 255, 255, 0.1);
+
+  --accent-mint: #00E5A0;
+  --accent-mint-rgb: 0, 229, 160;
+  --accent-mint-dim: rgba(0, 229, 160, 0.12);
+  --accent-mint-glow: rgba(0, 229, 160, 0.4);
+
+  --accent-amber: #FFB547;
+  --accent-amber-rgb: 255, 181, 71;
+  --accent-amber-dim: rgba(255, 181, 71, 0.12);
+  --accent-amber-glow: rgba(255, 181, 71, 0.3);
+
+  --accent-coral: #FF5F6D;
+  --accent-coral-rgb: 255, 95, 109;
+  --accent-coral-dim: rgba(255, 95, 109, 0.12);
+  --accent-coral-glow: rgba(255, 95, 109, 0.3);
+
+  --accent-sky: #4FC3F7;
+  --accent-sky-dim: rgba(79, 195, 247, 0.12);
+
+  --text-primary: #E8E8EC;
+  --text-secondary: #9198A1;
+  --text-muted: #5A6069;
+  --text-inverse: #08090D;
+
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-medium: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.18);
+
+  /* ─── Light Mode (Shield View) ─── */
+  --shield-bg: #F7F7F5;
+  --shield-surface: #FFFFFF;
+  --shield-elevated: #EDEEF0;
+  --shield-glass: rgba(255, 255, 255, 0.7);
+  --shield-primary: #059669;
+  --shield-primary-dim: rgba(5, 150, 105, 0.1);
+  --shield-primary-glow: rgba(5, 150, 105, 0.25);
+  --shield-accent: #F59E0B;
+  --shield-danger: #EF4444;
+  --shield-text: #1A1D23;
+  --shield-text-secondary: #5A6069;
+  --shield-text-muted: #9198A1;
+  --shield-border: rgba(0, 0, 0, 0.08);
+  --shield-border-medium: rgba(0, 0, 0, 0.12);
+  --shield-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+
+  /* ─── Typography ─── */
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+  --text-8xl: 6rem;
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  --tracking-tighter: -0.04em;
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-wider: 0.08em;
+  --tracking-caps: 0.14em;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ─── Spacing ─── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* ─── Radius ─── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* ─── Shadows ─── */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
+  --shadow-glow-mint: 0 0 40px var(--accent-mint-glow);
+  --shadow-glow-amber: 0 0 40px var(--accent-amber-glow);
+  --shadow-glow-coral: 0 0 40px var(--accent-coral-glow);
+
+  /* ─── Motion ─── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-normal: 350ms;
+  --duration-slow: 550ms;
+  --duration-slower: 800ms;
+  --duration-glacial: 1200ms;
+
+  /* ─── Z-Index ─── */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 450;
+  --z-cursor: 500;
+  --z-loading: 1000;
+}
