@@ -18,6 +18,7 @@ import { initCursor } from './cursor.js';
 import { refreshScrollAnimations } from './animations.js';
 import { render as renderShield } from './views/ShieldView.js';
 import { render as renderDashboard } from './views/DashboardView.js';
+import { render as renderPricing } from './views/PricingView.js';
 import { threats } from './data/mockData.js';
 
 // ─── Boot Sequence ───
@@ -86,6 +87,8 @@ function renderCurrentView() {
 
   if (view === 'shield') {
     renderShield(app);
+  } else if (view === 'pricing') {
+    renderPricing(app);
   } else {
     renderDashboard(app);
   }
@@ -124,6 +127,9 @@ function initRoleSwitcher() {
     </button>
     <button class="role-switcher-btn" data-view="dashboard">
       📊 Caregiver
+    </button>
+    <button class="role-switcher-btn" data-view="pricing">
+      💎 Pricing
     </button>
   `;
 
@@ -319,11 +325,13 @@ function checkOnboardingDialog() {
   const inputSenior = document.getElementById('ob-senior');
   const inputC1 = document.getElementById('ob-c1');
   const inputC2 = document.getElementById('ob-c2');
+  const inputEmail = document.getElementById('ob-email');
 
   // Pre-load currently active names or user defaults
   if (inputSenior) inputSenior.value = store.get('seniorName');
   if (inputC1) inputC1.value = store.get('caregiver1Name');
   if (inputC2) inputC2.value = store.get('caregiver2Name');
+  if (inputEmail) inputEmail.value = store.get('caregiverEmail') || 'gshrestha1121@gmail.com';
 
   if (!customized) {
     // If not customized on this device yet, reveal modal
@@ -353,19 +361,27 @@ function checkOnboardingDialog() {
       const seniorVal = inputSenior.value.trim();
       const c1Val = inputC1.value.trim();
       const c2Val = inputC2.value.trim();
+      const emailVal = inputEmail ? inputEmail.value.trim() : '';
 
-      if (!seniorVal || !c1Val || !c2Val) {
-        store.addToast('Please fill in all names to personalize your experience!', 'error', 3000);
+      if (!seniorVal || !c1Val || !c2Val || !emailVal) {
+        store.addToast('Please fill in all fields to personalize your experience!', 'error', 3000);
+        return;
+      }
+
+      // Quick email regex validation
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        store.addToast('Please enter a valid email address for caregiver alerts!', 'error', 3000);
         return;
       }
 
       // Update store and save to local storage
-      store.updateFamilyNames(seniorVal, c1Val, c2Val);
+      store.updateFamilyNames(seniorVal, c1Val, c2Val, emailVal);
 
       // Dismiss modal
       modal.classList.remove('active');
       document.documentElement.classList.remove('loading-active');
       document.body.classList.remove('loading-active');
+      localStorage.setItem('guardli_customized', 'true');
     });
   }
 
