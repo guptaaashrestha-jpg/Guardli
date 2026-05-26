@@ -225,19 +225,19 @@ export const scamSchoolProgress = {
 // ─── Heat Map Data ───
 export const heatmapData = {
   regions: [
-    { name: 'Florida', x: 75, y: 70, phishing: 340, techSupport: 890, romance: 1200, financial: 450 },
-    { name: 'California', x: 12, y: 45, phishing: 780, techSupport: 560, romance: 340, financial: 890 },
-    { name: 'Texas', x: 40, y: 65, phishing: 450, techSupport: 670, romance: 560, financial: 340 },
-    { name: 'New York', x: 78, y: 30, phishing: 920, techSupport: 340, romance: 450, financial: 780 },
-    { name: 'Ohio', x: 65, y: 35, phishing: 230, techSupport: 450, romance: 340, financial: 230 },
-    { name: 'Arizona', x: 22, y: 58, phishing: 180, techSupport: 780, romance: 560, financial: 120 },
-    { name: 'Illinois', x: 58, y: 33, phishing: 340, techSupport: 290, romance: 400, financial: 350 },
-    { name: 'Georgia', x: 70, y: 60, phishing: 290, techSupport: 380, romance: 670, financial: 220 }
+    { name: 'Maharashtra', x: 38, y: 58, phishing: 340, techSupport: 890, romance: 1200, financial: 450 },
+    { name: 'Delhi NCR', x: 46, y: 25, phishing: 780, techSupport: 560, romance: 340, financial: 890 },
+    { name: 'Karnataka', x: 44, y: 75, phishing: 450, techSupport: 670, romance: 560, financial: 340 },
+    { name: 'Tamil Nadu', x: 50, y: 85, phishing: 920, techSupport: 340, romance: 450, financial: 780 },
+    { name: 'West Bengal', x: 74, y: 45, phishing: 230, techSupport: 450, romance: 340, financial: 230 },
+    { name: 'Gujarat', x: 26, y: 48, phishing: 180, techSupport: 780, romance: 560, financial: 120 },
+    { name: 'Telangana', x: 50, y: 62, phishing: 340, techSupport: 290, romance: 400, financial: 350 },
+    { name: 'Uttar Pradesh', x: 54, y: 30, phishing: 290, techSupport: 380, romance: 670, financial: 220 }
   ],
   totalThisWeek: 12340,
   totalUsers: 52847,
   trendingType: 'romance',
-  trendingRegion: 'Florida',
+  trendingRegion: 'Maharashtra',
   weeklyTrend: [
     { week: 'W1', count: 8900 },
     { week: 'W2', count: 9400 },
@@ -286,7 +286,7 @@ export const auditLog = [
   { time: '9:15 AM', action: 'Viewed activity timeline', type: 'view' },
   { time: 'Yesterday', action: 'Mom updated privacy preferences', type: 'privacy_change' },
   { time: 'Yesterday', action: 'Set autonomy floor to Level 2', type: 'setting' },
-  { time: '2 days ago', action: 'Viewed heat map for Florida region', type: 'view' }
+  { time: '2 days ago', action: 'Viewed heat map for Maharashtra region', type: 'view' }
 ];
 
 // ─── Weekly Digest ───

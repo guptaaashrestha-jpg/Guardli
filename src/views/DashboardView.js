@@ -420,7 +420,7 @@ function buildHeatmap() {
       </div>
       <div class="card metric-card" data-animate data-delay="260">
         <div class="metric-icon sky">📍</div>
-        <div class="metric-value" style="font-size: var(--text-2xl);">Florida</div>
+        <div class="metric-value" style="font-size: var(--text-2xl);">Maharashtra</div>
         <div class="metric-label">TRENDING REGION</div>
         <div class="metric-change negative">Highest volume</div>
       </div>
@@ -435,7 +435,7 @@ function buildHeatmap() {
     <div class="card dash-section" style="margin-top: var(--space-6);" data-animate data-delay="420">
       <div class="digest-insight">
         <span>💡</span>
-        <span>Romance scams are up <strong>340%</strong> in Florida this month. Shikha's area shows elevated risk — consider a conversation about online relationships.</span>
+        <span>Romance scams are up <strong>340%</strong> in Maharashtra this month. Shikha's area shows elevated risk — consider a conversation about online relationships.</span>
       </div>
     </div>`;
 }
@@ -737,104 +737,180 @@ function drawHeatmap(root) {
 
   const container = canvas.parentElement;
   const dpr = window.devicePixelRatio || 1;
-  const rect = container.getBoundingClientRect();
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  canvas.style.width = rect.width + 'px';
-  canvas.style.height = rect.height + 'px';
+  let animationId;
 
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-  const W = rect.width;
-  const H = rect.height;
-
-  // Dark background
-  ctx.fillStyle = '#0F1117';
-  ctx.fillRect(0, 0, W, H);
-
-  // Draw faint US shape outline (abstract polygon)
-  ctx.beginPath();
-  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-  ctx.lineWidth = 1;
-  const usOutline = [
-    [0.08, 0.25], [0.15, 0.18], [0.22, 0.15], [0.30, 0.12],
-    [0.42, 0.10], [0.55, 0.08], [0.65, 0.12], [0.72, 0.15],
-    [0.78, 0.18], [0.85, 0.22], [0.88, 0.28], [0.90, 0.35],
-    [0.85, 0.42], [0.82, 0.50], [0.80, 0.60], [0.82, 0.68],
-    [0.78, 0.78], [0.70, 0.75], [0.60, 0.78], [0.50, 0.80],
-    [0.42, 0.78], [0.35, 0.72], [0.28, 0.68], [0.20, 0.65],
-    [0.15, 0.55], [0.10, 0.48], [0.05, 0.40], [0.06, 0.32]
-  ];
-  usOutline.forEach(([px, py], i) => {
-    const x = px * W, y = py * H;
-    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-  });
-  ctx.closePath();
-  ctx.stroke();
-
-  // Fill interior faintly
-  ctx.fillStyle = 'rgba(255,255,255,0.015)';
-  ctx.fill();
-
-  // Grid dots
-  for (let gx = 0; gx < W; gx += 30) {
-    for (let gy = 0; gy < H; gy += 30) {
-      ctx.beginPath();
-      ctx.fillStyle = 'rgba(255,255,255,0.03)';
-      ctx.arc(gx, gy, 1, 0, Math.PI * 2);
-      ctx.fill();
+  function renderLoop(time) {
+    if (!canvas.isConnected) {
+      cancelAnimationFrame(animationId);
+      return;
     }
-  }
 
-  // Draw region hotspots
-  heatmapData.regions.forEach(region => {
-    const cx = (region.x / 100) * W;
-    const cy = (region.y / 100) * H;
-    const total = region.phishing + region.techSupport + region.romance + region.financial;
+    const rect = container.getBoundingClientRect();
+    if (canvas.width !== rect.width * dpr || canvas.height !== rect.height * dpr) {
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+    }
 
-    // Draw concentric glows for each type
-    const types = [
-      { key: 'phishing', val: region.phishing, color: HEATMAP_COLORS.phishing },
-      { key: 'techSupport', val: region.techSupport, color: HEATMAP_COLORS.techSupport },
-      { key: 'romance', val: region.romance, color: HEATMAP_COLORS.romance },
-      { key: 'financial', val: region.financial, color: HEATMAP_COLORS.financial }
+    const ctx = canvas.getContext('2d');
+    ctx.save();
+    ctx.scale(dpr, dpr);
+    const W = rect.width;
+    const H = rect.height;
+
+    // Deep rich dark cyber background
+    ctx.fillStyle = '#08090D';
+    ctx.fillRect(0, 0, W, H);
+
+    // Dynamic grid dots
+    for (let gx = 0; gx < W; gx += 25) {
+      for (let gy = 0; gy < H; gy += 25) {
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.02)';
+        ctx.arc(gx, gy, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Precise India Vector Outline
+    const indiaOutline = [
+      [0.50, 0.05], // North Kashmir tip
+      [0.54, 0.12], // Ladakh east
+      [0.53, 0.20], // Himachal / Uttarakhand
+      [0.58, 0.25], // Nepal border west
+      [0.68, 0.32], // Nepal border east
+      [0.72, 0.31], // Sikkim
+      [0.76, 0.35], // Bhutan border
+      [0.85, 0.30], // Arunachal Pradesh north tip
+      [0.92, 0.33], // Arunachal east tip
+      [0.90, 0.42], // Nagaland / Manipur
+      [0.86, 0.48], // Mizoram
+      [0.82, 0.46], // Tripura
+      [0.81, 0.41], // Meghalaya / Bangladesh border
+      [0.75, 0.43], // West Bengal north / Bangladesh west
+      [0.77, 0.51], // West Bengal coast (Ganges Delta)
+      [0.70, 0.57], // Odisha coast north
+      [0.65, 0.65], // Andhra Pradesh coast north
+      [0.58, 0.78], // Chennai / Tamil Nadu coast
+      [0.52, 0.95], // Kanyakumari (South tip)
+      [0.48, 0.82], // Kerala coast
+      [0.43, 0.70], // Karnataka coast (Goa)
+      [0.40, 0.58], // Mumbai / Maharashtra coast
+      [0.32, 0.55], // Gujarat south coast
+      [0.24, 0.54], // Saurashtra peninsula
+      [0.20, 0.46], // Kutch peninsula (West tip)
+      [0.28, 0.42], // Gujarat-Rajasthan border
+      [0.28, 0.30], // Rajasthan west border
+      [0.34, 0.22], // Punjab border
+      [0.42, 0.18], // Jammu border west
+      [0.44, 0.08]  // Jammu north
     ];
 
-    // Outer glow
-    const baseRadius = Math.max(12, total / 80);
-    const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, baseRadius * 2.5);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
     ctx.beginPath();
-    ctx.fillStyle = gradient;
-    ctx.arc(cx, cy, baseRadius * 2.5, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(0, 229, 160, 0.15)'; // glowing cyber green
+    ctx.lineWidth = 1.5;
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = 'rgba(0, 229, 160, 0.3)';
+
+    indiaOutline.forEach(([px, py], i) => {
+      const x = px * W, y = py * H;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.closePath();
+    ctx.stroke();
+
+    // Subtle grid neon scanlines
+    ctx.shadowBlur = 0; // reset shadow
+    ctx.fillStyle = 'rgba(0, 229, 160, 0.02)';
     ctx.fill();
 
-    // Type-colored circles
-    let angleOffset = 0;
-    types.forEach(t => {
-      const r = Math.max(4, t.val / 100);
-      const intensity = Math.min(0.7, t.val / 1500);
-      const ox = Math.cos(angleOffset) * 6;
-      const oy = Math.sin(angleOffset) * 6;
+    // Pulses and Radar sweep wave
+    const scanY = (time * 0.08) % H;
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(0, 229, 160, 0.08)';
+    ctx.lineWidth = 2;
+    ctx.moveTo(0, scanY);
+    ctx.lineTo(W, scanY);
+    ctx.stroke();
 
-      const grad = ctx.createRadialGradient(cx + ox, cy + oy, 0, cx + ox, cy + oy, r);
-      grad.addColorStop(0, t.color + Math.round(intensity * 255).toString(16).padStart(2, '0'));
-      grad.addColorStop(1, t.color + '00');
+    // Glowing laser scanner blur
+    const scanGrad = ctx.createLinearGradient(0, scanY - 30, 0, scanY + 2);
+    scanGrad.addColorStop(0, 'rgba(0, 229, 160, 0)');
+    scanGrad.addColorStop(1, 'rgba(0, 229, 160, 0.04)');
+    ctx.fillStyle = scanGrad;
+    ctx.fillRect(0, scanY - 30, W, 30);
+
+    // Draw region hotspots
+    heatmapData.regions.forEach(region => {
+      const cx = (region.x / 100) * W;
+      const cy = (region.y / 100) * H;
+      const total = region.phishing + region.techSupport + region.romance + region.financial;
+
+      // Pulsing multiplier using time
+      const pulse = 1 + 0.15 * Math.sin(time * 0.005 + region.x);
+      
+      const types = [
+        { key: 'phishing', val: region.phishing, color: HEATMAP_COLORS.phishing },
+        { key: 'techSupport', val: region.techSupport, color: HEATMAP_COLORS.techSupport },
+        { key: 'romance', val: region.romance, color: HEATMAP_COLORS.romance },
+        { key: 'financial', val: region.financial, color: HEATMAP_COLORS.financial }
+      ];
+
+      // Outer breathing glow
+      const baseRadius = Math.max(12, total / 80) * pulse;
+      const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, baseRadius * 2.5);
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
       ctx.beginPath();
-      ctx.fillStyle = grad;
-      ctx.arc(cx + ox, cy + oy, r, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.arc(cx, cy, baseRadius * 2.5, 0, Math.PI * 2);
       ctx.fill();
 
-      angleOffset += Math.PI / 2;
+      // Draw radar ripple rings
+      const rippleRadius = (time * 0.03 + region.x * 5) % (baseRadius * 3);
+      const rippleOpacity = 1 - rippleRadius / (baseRadius * 3);
+      ctx.beginPath();
+      ctx.strokeStyle = `rgba(255, 255, 255, ${rippleOpacity * 0.08})`;
+      ctx.lineWidth = 1;
+      ctx.arc(cx, cy, rippleRadius, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Type-colored circles (mini clusters)
+      let angleOffset = time * 0.0004 + region.y; // spin clusters slowly
+      types.forEach(t => {
+        const r = Math.max(4, t.val / 100) * pulse;
+        const intensity = Math.min(0.7, t.val / 1500);
+        const ox = Math.cos(angleOffset) * 6;
+        const oy = Math.sin(angleOffset) * 6;
+
+        const grad = ctx.createRadialGradient(cx + ox, cy + oy, 0, cx + ox, cy + oy, r);
+        grad.addColorStop(0, t.color + Math.round(intensity * 255).toString(16).padStart(2, '0'));
+        grad.addColorStop(1, t.color + '00');
+        ctx.beginPath();
+        ctx.fillStyle = grad;
+        ctx.arc(cx + ox, cy + oy, r, 0, Math.PI * 2);
+        ctx.fill();
+
+        angleOffset += Math.PI / 2;
+      });
+
+      // Region label (subtle glass tag)
+      ctx.fillStyle = 'rgba(232, 232, 236, 0.75)';
+      ctx.font = '500 10px "Inter", system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.shadowBlur = 4;
+      ctx.shadowColor = 'rgba(0,0,0,0.8)';
+      ctx.fillText(region.name, cx, cy + baseRadius + 14);
+      ctx.shadowBlur = 0; // reset
     });
 
-    // Region label
-    ctx.fillStyle = 'rgba(232, 232, 236, 0.5)';
-    ctx.font = '10px system-ui, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(region.name, cx, cy + baseRadius + 14);
-  });
+    ctx.restore();
+    animationId = requestAnimationFrame(renderLoop);
+  }
+
+  animationId = requestAnimationFrame(renderLoop);
 }
 
 /* ─── Attach listeners for main content area ─── */
