@@ -128,12 +128,12 @@ export const threats = [
 
 // ─── Contacts Database ───
 export const contacts = [
-  { id: 'c001', name: 'Sarah (Daughter)', type: 'family', trustScore: 98, isCaregiver: true, avatar: '👩' },
-  { id: 'c002', name: 'James (Son)', type: 'family', trustScore: 97, isCaregiver: true, avatar: '👨' },
+  { id: 'c001', name: 'Shrestha', type: 'family', trustScore: 98, isCaregiver: true, avatar: '👩' },
+  { id: 'c002', name: 'Shikhar', type: 'family', trustScore: 97, isCaregiver: true, avatar: '👨' },
   { id: 'c003', name: 'Dr. Patricia Wilson', type: 'medical', trustScore: 95, avatar: '👩‍⚕️' },
   { id: 'c004', name: 'First National Bank', type: 'financial', trustScore: 90, avatar: '🏦' },
   { id: 'c005', name: 'Medicare Services', type: 'government', trustScore: 88, avatar: '🏛️' },
-  { id: 'c006', name: 'Book Club - Margaret', type: 'social', trustScore: 85, avatar: '📚' },
+  { id: 'c006', name: 'Book Club - Shikha', type: 'social', trustScore: 85, avatar: '📚' },
   { id: 'c007', name: 'Richard Hearts', type: 'unknown', trustScore: 23, avatar: '❓', flagged: true },
   { id: 'c008', name: 'Unknown +1-555-0199', type: 'unknown', trustScore: 5, avatar: '⚠️', flagged: true },
   { id: 'c009', name: 'Amazon', type: 'shopping', trustScore: 72, avatar: '📦' },
@@ -268,7 +268,7 @@ export const autonomyState = {
 
 // ─── Privacy Settings ───
 export const privacySettings = {
-  caregiverName: 'Sarah',
+  caregiverName: 'Shrestha',
   shareHighThreats: true,
   shareWeeklySummary: true,
   shareMediumThreats: false,

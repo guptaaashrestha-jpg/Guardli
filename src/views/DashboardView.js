@@ -38,11 +38,11 @@ const NAV_ITEMS = [
 ];
 
 const SECTION_TITLES = {
-  overview: { title: 'Dashboard Overview', subtitle: 'Real-time protection status for Mom' },
+  overview: { title: 'Dashboard Overview', subtitle: 'Real-time protection status for Shikha' },
   threats: { title: 'Threat Intelligence', subtitle: 'All detected threats and risk signals' },
   timeline: { title: 'Activity Timeline', subtitle: 'Everything that happened today' },
   heatmap: { title: 'Scam Heat Map', subtitle: 'Real-time geographic threat intelligence' },
-  school: { title: 'Scam School Progress', subtitle: "How Mom's learning to spot scams" },
+  school: { title: 'Scam School Progress', subtitle: "How Shikha's learning to spot scams" },
   digest: { title: 'Weekly Digest — May 19–25', subtitle: 'Your family protection summary' },
   audit: { title: 'Privacy Audit', subtitle: "Transparency into what you can see" }
 };
@@ -140,7 +140,7 @@ function buildSidebar(activeSection) {
       <div class="user-card">
         <div class="user-avatar">👩‍🦳</div>
         <div class="user-info">
-          <div class="user-name">Mom (Margaret)</div>
+          <div class="user-name">Mom (Shikha)</div>
           <div class="user-status">
             <span class="user-status-dot"></span>
             Protected • Level ${autonomyState.currentLevel}
@@ -435,7 +435,7 @@ function buildHeatmap() {
     <div class="card dash-section" style="margin-top: var(--space-6);" data-animate data-delay="420">
       <div class="digest-insight">
         <span>💡</span>
-        <span>Romance scams are up <strong>340%</strong> in Florida this month. Mom's area shows elevated risk — consider a conversation about online relationships.</span>
+        <span>Romance scams are up <strong>340%</strong> in Florida this month. Shikha's area shows elevated risk — consider a conversation about online relationships.</span>
       </div>
     </div>`;
 }
@@ -502,7 +502,7 @@ function buildSchool() {
     <div class="card dash-section" style="margin-top: var(--space-6);" data-animate data-delay="360">
       <div class="digest-insight">
         <span>💡</span>
-        <span>Mom struggles with <strong>tech support scams</strong> (78% accuracy) — consider discussing common patterns with her, like fake virus popups and unsolicited phone calls.</span>
+        <span>Shikha struggles with <strong>tech support scams</strong> (78% accuracy) — consider discussing common patterns with her, like fake virus popups and unsolicited phone calls.</span>
       </div>
     </div>`;
 }
@@ -520,7 +520,7 @@ function buildDigest() {
         <div class="digest-section-label">🛡️ Protection</div>
         <div class="digest-section-value">
           <strong>${wd.threatsBlocked}</strong> threats blocked out of <strong>${wd.threatsTotal}</strong> suspicious signals.
-          That's a ${Math.round((1 - wd.threatsBlocked / wd.threatsTotal) * 100)}% false-positive rate — the AI is learning Mom's patterns well.
+          That's a ${Math.round((1 - wd.threatsBlocked / wd.threatsTotal) * 100)}% false-positive rate — the AI is learning Shikha's patterns well.
         </div>
       </div>
 
@@ -596,7 +596,7 @@ function buildAudit() {
     <!-- Consent Status -->
     <div class="card dash-section" data-animate>
       <div class="dash-section-header">
-        <div class="dash-section-title">🔐 Mom's Sharing Preferences</div>
+        <div class="dash-section-title">🔐 Shikha's Sharing Preferences</div>
       </div>
       ${consentItems.map(item => `
         <div class="toggle-wrapper">
@@ -607,7 +607,7 @@ function buildAudit() {
         </div>
       `).join('')}
       <div style="font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-4);">
-        Last updated by Mom: 3 days ago
+        Last updated by Shikha: 3 days ago
       </div>
     </div>
 
@@ -656,7 +656,7 @@ function buildAudit() {
     <div class="card dash-section" style="margin-top: var(--space-6);" data-animate data-delay="420">
       <div class="digest-insight" style="background: var(--accent-sky-dim); color: var(--accent-sky);">
         <span>🔒</span>
-        <span>Your mother has chosen to share limited detail with you. <strong>This is her right.</strong> Guardli ensures transparency while respecting her autonomy.</span>
+        <span>Shikha has chosen to share limited detail with you. <strong>This is her right.</strong> Guardli ensures transparency while respecting her autonomy.</span>
       </div>
     </div>`;
 }
@@ -894,7 +894,7 @@ function attachMainListeners(mainEl, section) {
   // Share digest button
   mainEl.querySelectorAll('[data-action="share-digest"]').forEach(btn => {
     btn.addEventListener('click', () => {
-      store.addToast('Weekly digest sent to Sarah and James ✉️', 'info', 4000);
+      store.addToast('Weekly digest sent to Shrestha and Shikhar ✉️', 'info', 4000);
       btn.textContent = '✅ Sent!';
       btn.classList.remove('btn-primary');
       btn.classList.add('btn-ghost');
@@ -917,7 +917,7 @@ export function render(container) {
       <!-- Flashing Red SOS Alert Banner -->
       <div class="sos-alert-banner" id="sos-alert-banner">
         <div class="sos-alert-pulse"></div>
-        <div class="sos-alert-text">🚨 EMERGENCY PANIC ACTIVE: Margaret triggered the SOS alert! James and Sarah have been notified.</div>
+        <div class="sos-alert-text">🚨 EMERGENCY PANIC ACTIVE: Shikha triggered the SOS alert! Shrestha and Shikhar have been notified.</div>
         <button class="btn btn-sm btn-danger" id="sos-resolve-btn" style="cursor: none; margin-left: var(--space-4);">Clear Emergency</button>
       </div>
 

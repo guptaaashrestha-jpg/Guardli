@@ -106,7 +106,7 @@ class Store {
     // Dispatch real-world email alert!
     this.dispatchRealEmailAlert(
       '🛡️ Scam Threat Blocked',
-      `Guardli successfully blocked a high-risk ${threat.type.toUpperCase()} scam attempt from ${threat.sender} directed at Margaret.`
+      `Guardli successfully blocked a high-risk ${threat.type.toUpperCase()} scam attempt from ${threat.sender} directed at Shikha.`
     );
 
     this.set('activeThreat', null);
@@ -114,12 +114,12 @@ class Store {
 
   triggerSOS() {
     this.set('sosActive', true);
-    this.addToast('Help is on the way. Sarah and James have been notified. 🚨', 'warning', 6000);
+    this.addToast('Help is on the way. Shrestha and Shikhar have been notified. 🚨', 'warning', 6000);
 
     // Dispatch real-world SOS panic email alert!
     this.dispatchRealEmailAlert(
       '🚨 SOS PANIC EMERGENCY',
-      `Margaret has triggered the SOS Emergency Button on her Guardli Shield interface! Sarah and James have been designated as contacts.`
+      `Shikha has triggered the SOS Emergency Button on her Guardli Shield interface! Shrestha and Shikhar have been designated as contacts.`
     );
   }
 
@@ -140,7 +140,7 @@ class Store {
       // Dispatch real-world Reply Coach email warning!
       this.dispatchRealEmailAlert(
         '⚠️ Conversation Reply Coached',
-        `Guardli intervened with real-time Reply Coaching before Margaret could reply to unverified romance scam contact: richard.hearts@gmail.com.`
+        `Guardli intervened with real-time Reply Coaching before Shikha could reply to unverified romance scam contact: richard.hearts@gmail.com.`
       );
     }
   }
@@ -168,7 +168,7 @@ class Store {
         template_id: TEMPLATE_ID,
         user_id: PUBLIC_KEY,
         template_params: {
-          to_name: 'Caregiver (Sarah & James)',
+          to_name: 'Caregiver (Shrestha & Shikhar)',
           from_name: 'Guardli Digital Guardian',
           alert_type: alertType,
           message: messageText
