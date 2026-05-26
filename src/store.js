@@ -102,21 +102,89 @@ class Store {
     this.set('liveAlerts', [alert, ...this.state.liveAlerts]);
 
     this.addToast('Shield Active! We kept you safe. 🛡️ (+10 XP)', 'success', 4000);
+
+    // Dispatch real-world email alert!
+    this.dispatchRealEmailAlert(
+      '🛡️ Scam Threat Blocked',
+      `Guardli successfully blocked a high-risk ${threat.type.toUpperCase()} scam attempt from ${threat.sender} directed at Margaret.`
+    );
+
     this.set('activeThreat', null);
   }
 
   triggerSOS() {
     this.set('sosActive', true);
     this.addToast('Help is on the way. Sarah and James have been notified. 🚨', 'warning', 6000);
+
+    // Dispatch real-world SOS panic email alert!
+    this.dispatchRealEmailAlert(
+      '🚨 SOS PANIC EMERGENCY',
+      `Margaret has triggered the SOS Emergency Button on her Guardli Shield interface! Sarah and James have been designated as contacts.`
+    );
   }
 
   resetSOS() {
     this.set('sosActive', false);
     this.addToast('SOS emergency cleared.', 'info', 3000);
+
+    this.dispatchRealEmailAlert(
+      '✅ SOS Emergency Resolved',
+      `The SOS panic state has been marked as resolved by the caregiver dashboard.`
+    );
   }
 
   triggerReplyCoach(active) {
     this.set('showReplyCoach', active);
+
+    if (active) {
+      // Dispatch real-world Reply Coach email warning!
+      this.dispatchRealEmailAlert(
+        '⚠️ Conversation Reply Coached',
+        `Guardli intervened with real-time Reply Coaching before Margaret could reply to unverified romance scam contact: richard.hearts@gmail.com.`
+      );
+    }
+  }
+
+  // ─── Real-World Email Dispatcher (EmailJS) ───
+  dispatchRealEmailAlert(alertType, messageText) {
+    // =========================================================================
+    // ⚙️ COPY-PASTE YOUR FREE KEYS FROM EMAILJS HERE:
+    // =========================================================================
+    const SERVICE_ID = 'service_sg112129';
+    const TEMPLATE_ID = 'template_csd548m';
+    const PUBLIC_KEY = '7SOYCA-8bDj-Bnnx7';
+    // =========================================================================
+
+    if (SERVICE_ID === 'YOUR_SERVICE_ID') {
+      console.log(`[API Simulation] Email alert would be sent: [${alertType}] - "${messageText}"`);
+      return;
+    }
+
+    fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        service_id: SERVICE_ID,
+        template_id: TEMPLATE_ID,
+        user_id: PUBLIC_KEY,
+        template_params: {
+          to_name: 'Caregiver (Sarah & James)',
+          from_name: 'Guardli Digital Guardian',
+          alert_type: alertType,
+          message: messageText
+        }
+      })
+    })
+    .then(res => {
+      if (res.ok) {
+        console.log(`✅ Real-world email alert [${alertType}] sent successfully!`);
+      } else {
+        console.error('❌ EmailJS API returned an error:', res.statusText);
+      }
+    })
+    .catch(err => {
+      console.error('❌ EmailJS Fetch Error:', err);
+    });
   }
 }
 
