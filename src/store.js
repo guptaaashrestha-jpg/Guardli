@@ -29,9 +29,9 @@ class Store {
       scanning: false,
       scanningMsg: '',
       // Device customized family names (pre-loaded from localStorage or defaults)
-      seniorName: localStorage.getItem('guardli_senior_name') || 'Shikha',
-      caregiver1Name: localStorage.getItem('guardli_c1_name') || 'Shrestha',
-      caregiver2Name: localStorage.getItem('guardli_c2_name') || 'Shikhar'
+      seniorName: localStorage.getItem('guardli_senior_name') || 'Margaret',
+      caregiver1Name: localStorage.getItem('guardli_c1_name') || 'Sarah',
+      caregiver2Name: localStorage.getItem('guardli_c2_name') || 'James'
     };
     this.listeners = new Map();
     this.nextToastId = 0;

@@ -28,6 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initToastSystem();
   initDemoController();
 
+  // Secret VIP preset link setup for your family!
+  // Opens the site configured with Shikha, Shrestha, and Shikhar silently
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('vip') || urlParams.has('preset') || urlParams.has('family')) {
+    store.updateFamilyNames('Shikha', 'Shrestha', 'Shikhar');
+    // Clear query parameter from URL bar silently for clean look
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   // Subscribe to view changes
   store.subscribe('currentView', (view) => {
     transitionToView(view);
