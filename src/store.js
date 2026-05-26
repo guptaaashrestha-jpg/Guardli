@@ -29,10 +29,10 @@ class Store {
       scanning: false,
       scanningMsg: '',
       // Device customized family names (pre-loaded from localStorage or defaults)
-      seniorName: localStorage.getItem('guardli_senior_name') || 'Margaret',
-      caregiver1Name: localStorage.getItem('guardli_c1_name') || 'Sarah',
-      caregiver2Name: localStorage.getItem('guardli_c2_name') || 'James',
-      caregiverEmail: localStorage.getItem('guardli_caregiver_email') || 'gshrestha1121@gmail.com'
+      seniorName: localStorage.getItem('guardli_senior_name') || 'Mom',
+      caregiver1Name: localStorage.getItem('guardli_c1_name') || 'Daughter',
+      caregiver2Name: localStorage.getItem('guardli_c2_name') || 'Son',
+      caregiverEmail: localStorage.getItem('guardli_caregiver_email') || ''
     };
     this.listeners = new Map();
     this.nextToastId = 0;
@@ -81,7 +81,7 @@ class Store {
   }
 
   // ─── Setup Device Names Onboarding ───
-  updateFamilyNames(senior, c1, c2, email = 'gshrestha1121@gmail.com') {
+  updateFamilyNames(senior, c1, c2, email = '') {
     localStorage.setItem('guardli_senior_name', senior);
     localStorage.setItem('guardli_c1_name', c1);
     localStorage.setItem('guardli_c2_name', c2);
@@ -219,7 +219,7 @@ class Store {
         template_id: TEMPLATE_ID,
         user_id: PUBLIC_KEY,
         template_params: {
-          to_email: this.state.caregiverEmail || 'gshrestha1121@gmail.com',
+          to_email: this.state.caregiverEmail || '',
           to_name: `Caregiver (${this.state.caregiver1Name} & ${this.state.caregiver2Name})`,
           from_name: 'Guardli Digital Guardian',
           alert_type: alertType,

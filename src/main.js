@@ -337,7 +337,7 @@ function checkOnboardingDialog() {
   if (inputSenior) inputSenior.value = store.get('seniorName');
   if (inputC1) inputC1.value = store.get('caregiver1Name');
   if (inputC2) inputC2.value = store.get('caregiver2Name');
-  if (inputEmail) inputEmail.value = store.get('caregiverEmail') || 'gshrestha1121@gmail.com';
+  if (inputEmail) inputEmail.value = store.get('caregiverEmail') || '';
 
   if (!customized) {
     // If not customized on this device yet, reveal modal
@@ -355,7 +355,7 @@ function checkOnboardingDialog() {
       document.documentElement.classList.remove('loading-active');
       document.body.classList.remove('loading-active');
       localStorage.setItem('guardli_customized', 'true');
-      store.addToast(`Loaded default profile: Shikha, Shrestha, Shikhar 🛡️`, 'info', 4000);
+      store.addToast(`Using default profile. You can personalize anytime! 🛡️`, 'info', 4000);
     });
   }
 

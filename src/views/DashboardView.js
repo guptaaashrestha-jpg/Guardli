@@ -37,15 +37,18 @@ const NAV_ITEMS = [
   ]}
 ];
 
-const SECTION_TITLES = {
-  overview: { title: 'Dashboard Overview', subtitle: 'Real-time protection status for Shikha' },
-  threats: { title: 'Threat Intelligence', subtitle: 'All detected threats and risk signals' },
-  timeline: { title: 'Activity Timeline', subtitle: 'Everything that happened today' },
-  heatmap: { title: 'Scam Heat Map', subtitle: 'Real-time geographic threat intelligence' },
-  school: { title: 'Scam School Progress', subtitle: "How Shikha's learning to spot scams" },
-  digest: { title: 'Weekly Digest — May 19–25', subtitle: 'Your family protection summary' },
-  audit: { title: 'Privacy Audit', subtitle: "Transparency into what you can see" }
-};
+function getSectionTitles() {
+  const senior = store.get('seniorName');
+  return {
+    overview: { title: 'Dashboard Overview', subtitle: `Real-time protection status for ${senior}` },
+    threats: { title: 'Threat Intelligence', subtitle: 'All detected threats and risk signals' },
+    timeline: { title: 'Activity Timeline', subtitle: 'Everything that happened today' },
+    heatmap: { title: 'Scam Heat Map', subtitle: 'Real-time geographic threat intelligence' },
+    school: { title: 'Scam School Progress', subtitle: `How ${senior}'s learning to spot scams` },
+    digest: { title: 'Weekly Digest — May 19–25', subtitle: 'Your family protection summary' },
+    audit: { title: 'Privacy Audit', subtitle: "Transparency into what you can see" }
+  };
+}
 
 const HEATMAP_COLORS = {
   phishing: '#4FC3F7',
