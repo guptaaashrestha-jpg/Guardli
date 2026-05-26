@@ -52,6 +52,43 @@
   <!-- Main Application -->
   <div id="app"></div>
 
+  <!-- Dynamic Onboarding Personalization Modal -->
+  <div class="modal-overlay onboarding-modal-overlay" id="guardli-onboarding-modal" style="z-index: 10000; background: rgba(5, 6, 10, 0.85); backdrop-filter: blur(16px); justify-content: center; align-items: center;">
+    <div class="modal onboarding-modal" style="max-width: 440px; border: 1px solid rgba(255,255,255,0.08); background: rgba(15, 17, 24, 0.7); box-shadow: var(--shadow-2xl); border-radius: var(--radius-2xl);">
+      <div style="text-align: center; margin-bottom: var(--space-5);">
+        <div style="font-size: 48px; margin-bottom: var(--space-2); filter: drop-shadow(0 0 10px rgba(0, 229, 160, 0.4));">🛡️</div>
+        <h2 style="font-family: var(--font-display); font-size: var(--text-2xl); font-weight: var(--weight-bold); color: #fff;">
+          Personalize Your Guardli
+        </h2>
+        <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-2); line-height: var(--leading-relaxed);">
+          Set up custom family profiles to preview how Guardli monitors threats, triggers alerts, and sends real-time protection emails to caregivers.
+        </p>
+      </div>
+
+      <form id="onboarding-form" style="display: flex; flex-direction: column; gap: var(--space-4); margin-bottom: var(--space-6); text-align: left;">
+        <div style="display: flex; flex-direction: column; gap: var(--space-1);">
+          <label style="font-size: 11px; color: var(--text-secondary); font-weight: var(--weight-semibold); letter-spacing: 0.05em; text-transform: uppercase;">Elderly / Senior's Name</label>
+          <input type="text" id="ob-senior" required placeholder="e.g. Grandma, Mom, Shikha..." style="width: 100%; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: #fff; font-size: var(--text-sm); outline: none; transition: border-color 0.2s;" />
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: var(--space-1);">
+          <label style="font-size: 11px; color: var(--text-secondary); font-weight: var(--weight-semibold); letter-spacing: 0.05em; text-transform: uppercase;">Caregiver 1 (Primary Contact)</label>
+          <input type="text" id="ob-c1" required placeholder="e.g. Daughter, Shrestha..." style="width: 100%; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: #fff; font-size: var(--text-sm); outline: none; transition: border-color 0.2s;" />
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: var(--space-1);">
+          <label style="font-size: 11px; color: var(--text-secondary); font-weight: var(--weight-semibold); letter-spacing: 0.05em; text-transform: uppercase;">Caregiver 2 (Secondary Contact)</label>
+          <input type="text" id="ob-c2" required placeholder="e.g. Son, Shikhar..." style="width: 100%; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: #fff; font-size: var(--text-sm); outline: none; transition: border-color 0.2s;" />
+        </div>
+      </form>
+
+      <div style="display: flex; gap: var(--space-3); width: 100%;">
+        <button class="btn btn-primary btn-lg" id="ob-submit" style="flex: 1; justify-content: center; cursor: none;">Let's Go! 🛡️</button>
+        <button class="btn btn-ghost btn-lg" id="ob-skip" style="flex: 1; justify-content: center; cursor: none; color: var(--text-muted);">Use Defaults</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

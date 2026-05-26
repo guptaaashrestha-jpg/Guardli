@@ -32,6 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
   store.subscribe('currentView', (view) => {
     transitionToView(view);
   });
+
+  // Subscribe to dynamic profile name signals for reactive updates
+  store.subscribe('seniorName', () => renderCurrentView());
+  store.subscribe('caregiver1Name', () => renderCurrentView());
+  store.subscribe('caregiver2Name', () => renderCurrentView());
 });
 
 // ─── Loading Screen ───
@@ -55,6 +60,9 @@ function initLoadingScreen() {
     setTimeout(() => {
       app.classList.add('visible');
       refreshScrollAnimations();
+
+      // Launch personalization onboarding dialog if not previously configured
+      checkOnboardingDialog();
     }, 400);
   }, 3500); // Total loading time: shield draw + text + progress bar
 }
@@ -288,5 +296,85 @@ function initDemoController() {
         }, 800);
       }
     }, store.get('currentView') !== 'shield' ? 500 : 0);
+  });
+}
+
+// ─── First-Launch Personalization Dialog ───
+function checkOnboardingDialog() {
+  const modal = document.getElementById('guardli-onboarding-modal');
+  if (!modal) return;
+
+  const customized = localStorage.getItem('guardli_customized');
+  
+  // Get inputs
+  const inputSenior = document.getElementById('ob-senior');
+  const inputC1 = document.getElementById('ob-c1');
+  const inputC2 = document.getElementById('ob-c2');
+
+  // Pre-load currently active names or user defaults
+  if (inputSenior) inputSenior.value = store.get('seniorName');
+  if (inputC1) inputC1.value = store.get('caregiver1Name');
+  if (inputC2) inputC2.value = store.get('caregiver2Name');
+
+  if (!customized) {
+    // If not customized on this device yet, reveal modal
+    modal.classList.add('active');
+    // Lock scroll for onboarding
+    document.documentElement.classList.add('loading-active');
+    document.body.classList.add('loading-active');
+  }
+
+  // Handle skip button
+  const skipBtn = document.getElementById('ob-skip');
+  if (skipBtn) {
+    skipBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+      document.documentElement.classList.remove('loading-active');
+      document.body.classList.remove('loading-active');
+      localStorage.setItem('guardli_customized', 'true');
+      store.addToast(`Loaded default profile: Shikha, Shrestha, Shikhar 🛡️`, 'info', 4000);
+    });
+  }
+
+  // Handle submit
+  const submitBtn = document.getElementById('ob-submit');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const seniorVal = inputSenior.value.trim();
+      const c1Val = inputC1.value.trim();
+      const c2Val = inputC2.value.trim();
+
+      if (!seniorVal || !c1Val || !c2Val) {
+        store.addToast('Please fill in all names to personalize your experience!', 'error', 3000);
+        return;
+      }
+
+      // Update store and save to local storage
+      store.updateFamilyNames(seniorVal, c1Val, c2Val);
+
+      // Dismiss modal
+      modal.classList.remove('active');
+      document.documentElement.classList.remove('loading-active');
+      document.body.classList.remove('loading-active');
+    });
+  }
+
+  // Close modal when clicking outside (only if already customized)
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal && localStorage.getItem('guardli_customized') === 'true') {
+      modal.classList.remove('active');
+      document.documentElement.classList.remove('loading-active');
+      document.body.classList.remove('loading-active');
+    }
+  });
+
+  // Handle Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active') && localStorage.getItem('guardli_customized') === 'true') {
+      modal.classList.remove('active');
+      document.documentElement.classList.remove('loading-active');
+      document.body.classList.remove('loading-active');
+    }
   });
 }

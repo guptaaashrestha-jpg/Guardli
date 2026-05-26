@@ -28,14 +28,6 @@ const activityItems = [
   { icon: '🚫', text: 'Tech support scam blocked — fake Microsoft alert', status: 'blocked', time: '2 hours ago', trustScore: 3 }
 ];
 
-// ─── Privacy toggle definitions ───
-const privacyToggles = [
-  { key: 'shareHighThreats', label: 'Alert Shrestha about serious threats', on: privacySettings.shareHighThreats },
-  { key: 'shareWeeklySummary', label: 'Share weekly safety summary', on: privacySettings.shareWeeklySummary },
-  { key: 'shareMediumThreats', label: 'Share medium-risk alerts', on: privacySettings.shareMediumThreats },
-  { key: 'shareScamSchoolProgress', label: 'Share Scam School progress', on: privacySettings.shareScamSchoolProgress }
-];
-
 // ─── Shield Logo SVG ───
 const shieldSVG = `<svg class="shield-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
 
@@ -48,8 +40,9 @@ function renderTrustBadge(score) {
 // ─── Build the privacy preview text ───
 function buildPrivacyPreview(toggles) {
   const active = toggles.filter(t => t.on).map(t => t.label.toLowerCase());
-  if (active.length === 0) return `Shrestha can't see any of your activity right now.`;
-  return `Shrestha can currently: ${active.join(', ')}.`;
+  const c1 = store.get('caregiver1Name');
+  if (active.length === 0) return `${c1} can't see any of your activity right now.`;
+  return `${c1} can currently: ${active.join(', ')}.`;
 }
 
 // ─── Render ───
@@ -59,6 +52,13 @@ export function render(container) {
   const autonomyLevel = autonomyState.currentLevel;
   const autonomyDesc = autonomyState.levelDescriptions[autonomyLevel];
   const currentTab = store.get('shieldSection') || 'home';
+
+  const privacyToggles = [
+    { key: 'shareHighThreats', label: `Alert ${store.get('caregiver1Name')} about serious threats`, on: privacySettings.shareHighThreats },
+    { key: 'shareWeeklySummary', label: 'Share weekly safety summary', on: privacySettings.shareWeeklySummary },
+    { key: 'shareMediumThreats', label: 'Share medium-risk alerts', on: privacySettings.shareMediumThreats },
+    { key: 'shareScamSchoolProgress', label: 'Share Scam School progress', on: privacySettings.shareScamSchoolProgress }
+  ];
 
   // Track found flags
   const foundFlags = new Set();
@@ -164,7 +164,7 @@ export function render(container) {
         <!-- ─── Privacy Settings ─── -->
         <section class="shield-section" id="shield-settings" data-animate="fade-up" data-delay="4">
           <div class="shield-section-header">
-            <div class="shield-section-title">🔒 What Shrestha can see</div>
+            <div class="shield-section-title">🔒 What ${store.get('caregiver1Name')} can see</div>
           </div>
 
           <div id="privacy-toggles">
@@ -179,10 +179,16 @@ export function render(container) {
           </div>
 
           <div class="privacy-preview" id="privacy-preview">
-            <div class="privacy-preview-title">What Shrestha currently sees</div>
+            <div class="privacy-preview-title">What ${store.get('caregiver1Name')} currently sees</div>
             <div class="privacy-preview-text" id="privacy-preview-text">
               ${buildPrivacyPreview(privacyToggles)}
             </div>
+          </div>
+
+          <div style="margin-top: var(--space-6); text-align: center;">
+            <button class="btn btn-ghost" id="open-profile-customizer" style="width: 100%; border: 1px dashed var(--border-subtle); cursor: none;">
+              ⚙️ Customize Family Names
+            </button>
           </div>
         </section>
 
@@ -200,7 +206,7 @@ export function render(container) {
               Send Emergency Alert?
             </h2>
             <p style="font-size: var(--text-base); color: var(--shield-text-secondary); line-height: var(--leading-relaxed);">
-              This will alert Shrestha and Shikhar immediately. Are you sure?
+              This will alert ${store.get('caregiver1Name')} and ${store.get('caregiver2Name')} immediately. Are you sure?
             </p>
           </div>
           <div style="display: flex; gap: var(--space-3); justify-content: center;">
@@ -261,7 +267,7 @@ export function render(container) {
             <div style="align-self: flex-start; background: #FFF; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); border-bottom-left-radius: 0; max-width: 80%; box-shadow: var(--shadow-sm); border: 1px solid var(--border-subtle); text-align: left;">
               <div style="font-size: var(--text-xs); color: var(--text-muted); margin-bottom: var(--space-1);">Richard • 6h ago</div>
               <div style="font-size: var(--text-sm); color: #333; line-height: var(--leading-normal);">
-                Could you help me with a $500 gift card? Please don't tell your daughter Shrestha, she wouldn't understand our connection.
+                Could you help me with a $500 gift card? Please don't tell your daughter ${store.get('caregiver1Name')}, she wouldn't understand our connection.
               </div>
             </div>
           </div>
@@ -291,12 +297,12 @@ export function render(container) {
             </div>
             <div style="font-size: var(--text-xs); color: var(--text-muted); line-height: var(--leading-relaxed); text-align: left;">
               • <strong>Money request:</strong> Richard asked for a $500 emergency gift card.<br>
-              • <strong>Secrecy requested:</strong> He asked you to keep this private from Shrestha.<br>
+              • <strong>Secrecy requested:</strong> He asked you to keep this private from ${store.get('caregiver1Name')}.<br>
               • <strong>Identity unverified:</strong> Trust Score is only <strong>23/100</strong>.
             </div>
           </div>
           <div style="display: flex; flex-direction: column; gap: var(--space-2); width: 100%;">
-            <button class="btn btn-primary" id="coach-ask-sarah" style="justify-content: center; cursor: none;">📞 Talk to Shrestha First</button>
+            <button class="btn btn-primary" id="coach-ask-sarah" style="justify-content: center; cursor: none;">📞 Talk to ${store.get('caregiver1Name')} First</button>
             <button class="btn btn-danger" id="coach-block-richard" style="justify-content: center; cursor: none;">🚫 Block Richard Hearts</button>
             <button class="btn btn-ghost" id="coach-reply-anyway" style="justify-content: center; cursor: none;">Reply Anyway</button>
           </div>
@@ -621,7 +627,7 @@ export function render(container) {
       coachModal.classList.remove('active');
       chatModal.classList.remove('active');
       store.triggerReplyCoach(false);
-      store.addToast("Shrestha has been asked for advice. We've paused this conversation for safety. 🔒", 'success', 5000);
+      store.addToast(`${store.get('caregiver1Name')} has been asked for advice. We've paused this conversation for safety. 🔒`, 'success', 5000);
 
       // Prepend an activity timeline item
       const listEl = container.querySelector('.activity-list');
@@ -631,7 +637,7 @@ export function render(container) {
         item.innerHTML = `
           <div class="activity-icon warning">⚠️</div>
           <div class="activity-body">
-            <div class="activity-text">Asked Shrestha for advice regarding Richard Hearts</div>
+            <div class="activity-text">Asked ${store.get('caregiver1Name')} for advice regarding Richard Hearts</div>
             <div class="activity-time">Just now</div>
           </div>
           <div class="activity-trust">
@@ -710,13 +716,22 @@ export function render(container) {
         msg.innerHTML = `
           <div style="font-size: var(--text-xs); color: var(--text-muted); margin-bottom: var(--space-1);">Richard • Just now</div>
           <div style="font-size: var(--text-sm); color: #333; line-height: var(--leading-normal);">
-            Thank you my dear. I knew I could trust you. Can you go purchase the gift cards now? Shrestha doesn't need to know...
+            Thank you my dear. I knew I could trust you. Can you go purchase the gift cards now? ${store.get('caregiver1Name')} doesn't need to know...
           </div>
         `;
         chatMessages.appendChild(msg);
         chatMessages.scrollTop = chatMessages.scrollHeight;
         store.addToast("⚠️ Flagged: Sender continues to request secrecy and financial aid.", 'error', 5000);
       }, 3000);
+    });
+  }
+
+  // Open names customizer onboarding dialog
+  const customizerBtn = container.querySelector('#open-profile-customizer');
+  if (customizerBtn) {
+    customizerBtn.addEventListener('click', () => {
+      const modal = document.querySelector('#guardli-onboarding-modal');
+      if (modal) modal.classList.add('active');
     });
   }
 

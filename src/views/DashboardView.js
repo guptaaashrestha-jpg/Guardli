@@ -140,7 +140,7 @@ function buildSidebar(activeSection) {
       <div class="user-card">
         <div class="user-avatar">👩‍🦳</div>
         <div class="user-info">
-          <div class="user-name">Mom (Shikha)</div>
+          <div class="user-name">Mom (${store.get('seniorName')})</div>
           <div class="user-status">
             <span class="user-status-dot"></span>
             Protected • Level ${autonomyState.currentLevel}
@@ -152,12 +152,46 @@ function buildSidebar(activeSection) {
 
 /* ─── Header HTML ─── */
 function buildHeader(section) {
-  const info = SECTION_TITLES[section] || SECTION_TITLES.overview;
+  const senior = store.get('seniorName');
+  let title = 'Dashboard Overview';
+  let subtitle = `Real-time protection status for ${senior}`;
+
+  switch (section) {
+    case 'overview':
+      title = 'Dashboard Overview';
+      subtitle = `Real-time protection status for ${senior}`;
+      break;
+    case 'threats':
+      title = 'Threat Intelligence';
+      subtitle = 'All detected threats and risk signals';
+      break;
+    case 'timeline':
+      title = 'Activity Timeline';
+      subtitle = 'Everything that happened today';
+      break;
+    case 'heatmap':
+      title = 'Scam Heat Map';
+      subtitle = 'Real-time geographic threat intelligence';
+      break;
+    case 'school':
+      title = 'Scam School Progress';
+      subtitle = `How ${senior}'s learning to spot scams`;
+      break;
+    case 'digest':
+      title = 'Weekly Digest — May 19–25';
+      subtitle = 'Your family protection summary';
+      break;
+    case 'audit':
+      title = 'Privacy Audit';
+      subtitle = 'Transparency into what you can see';
+      break;
+  }
+
   return `
     <div class="dash-header">
       <div>
-        <h1 class="dash-title">${info.title}</h1>
-        <p class="dash-subtitle">${info.subtitle}</p>
+        <h1 class="dash-title">${title}</h1>
+        <p class="dash-subtitle">${subtitle}</p>
       </div>
       <div class="dash-header-actions">
         <div class="notification-bell" data-action="bell">
@@ -435,7 +469,7 @@ function buildHeatmap() {
     <div class="card dash-section" style="margin-top: var(--space-6);" data-animate data-delay="420">
       <div class="digest-insight">
         <span>💡</span>
-        <span>Romance scams are up <strong>340%</strong> in Maharashtra this month. Shikha's area shows elevated risk — consider a conversation about online relationships.</span>
+        <span>Romance scams are up <strong>340%</strong> in Maharashtra this month. ${store.get('seniorName')}'s area shows elevated risk — consider a conversation about online relationships.</span>
       </div>
     </div>`;
 }
@@ -502,7 +536,7 @@ function buildSchool() {
     <div class="card dash-section" style="margin-top: var(--space-6);" data-animate data-delay="360">
       <div class="digest-insight">
         <span>💡</span>
-        <span>Shikha struggles with <strong>tech support scams</strong> (78% accuracy) — consider discussing common patterns with her, like fake virus popups and unsolicited phone calls.</span>
+        <span>${store.get('seniorName')} struggles with <strong>tech support scams</strong> (78% accuracy) — consider discussing common patterns with her, like fake virus popups and unsolicited phone calls.</span>
       </div>
     </div>`;
 }
@@ -520,7 +554,7 @@ function buildDigest() {
         <div class="digest-section-label">🛡️ Protection</div>
         <div class="digest-section-value">
           <strong>${wd.threatsBlocked}</strong> threats blocked out of <strong>${wd.threatsTotal}</strong> suspicious signals.
-          That's a ${Math.round((1 - wd.threatsBlocked / wd.threatsTotal) * 100)}% false-positive rate — the AI is learning Shikha's patterns well.
+          That's a ${Math.round((1 - wd.threatsBlocked / wd.threatsTotal) * 100)}% false-positive rate — the AI is learning ${store.get('seniorName')}'s patterns well.
         </div>
       </div>
 
@@ -596,7 +630,7 @@ function buildAudit() {
     <!-- Consent Status -->
     <div class="card dash-section" data-animate>
       <div class="dash-section-header">
-        <div class="dash-section-title">🔐 Shikha's Sharing Preferences</div>
+        <div class="dash-section-title">🔐 ${store.get('seniorName')}'s Sharing Preferences</div>
       </div>
       ${consentItems.map(item => `
         <div class="toggle-wrapper">
@@ -607,7 +641,7 @@ function buildAudit() {
         </div>
       `).join('')}
       <div style="font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-4);">
-        Last updated by Shikha: 3 days ago
+        Last updated by ${store.get('seniorName')}: 3 days ago
       </div>
     </div>
 
@@ -656,8 +690,15 @@ function buildAudit() {
     <div class="card dash-section" style="margin-top: var(--space-6);" data-animate data-delay="420">
       <div class="digest-insight" style="background: var(--accent-sky-dim); color: var(--accent-sky);">
         <span>🔒</span>
-        <span>Shikha has chosen to share limited detail with you. <strong>This is her right.</strong> Guardli ensures transparency while respecting her autonomy.</span>
+        <span>${store.get('seniorName')} has chosen to share limited detail with you. <strong>This is her right.</strong> Guardli ensures transparency while respecting her autonomy.</span>
       </div>
+    </div>
+
+    <!-- Customize Profiles Button -->
+    <div class="card dash-section" style="margin-top: var(--space-6); text-align: center;" data-animate data-delay="480">
+      <button class="btn btn-ghost" id="open-profile-customizer-dash" style="width: 100%; border: 1px dashed var(--border-subtle); cursor: none;">
+        ⚙️ Customize Family Names
+      </button>
     </div>`;
 }
 
@@ -965,12 +1006,22 @@ function attachMainListeners(mainEl, section) {
         );
       });
     });
+
+    const customizerBtn = mainEl.querySelector('#open-profile-customizer-dash');
+    if (customizerBtn) {
+      customizerBtn.addEventListener('click', () => {
+        const modal = document.querySelector('#guardli-onboarding-modal');
+        if (modal) modal.classList.add('active');
+      });
+    }
   }
 
   // Share digest button
   mainEl.querySelectorAll('[data-action="share-digest"]').forEach(btn => {
     btn.addEventListener('click', () => {
-      store.addToast('Weekly digest sent to Shrestha and Shikhar ✉️', 'info', 4000);
+      const c1 = store.get('caregiver1Name');
+      const c2 = store.get('caregiver2Name');
+      store.addToast(`Weekly digest sent to ${c1} and ${c2} ✉️`, 'info', 4000);
       btn.textContent = '✅ Sent!';
       btn.classList.remove('btn-primary');
       btn.classList.add('btn-ghost');
@@ -993,7 +1044,7 @@ export function render(container) {
       <!-- Flashing Red SOS Alert Banner -->
       <div class="sos-alert-banner" id="sos-alert-banner">
         <div class="sos-alert-pulse"></div>
-        <div class="sos-alert-text">🚨 EMERGENCY PANIC ACTIVE: Shikha triggered the SOS alert! Shrestha and Shikhar have been notified.</div>
+        <div class="sos-alert-text">🚨 EMERGENCY PANIC ACTIVE: ${store.get('seniorName')} triggered the SOS alert! ${store.get('caregiver1Name')} and ${store.get('caregiver2Name')} have been notified.</div>
         <button class="btn btn-sm btn-danger" id="sos-resolve-btn" style="cursor: none; margin-left: var(--space-4);">Clear Emergency</button>
       </div>
 

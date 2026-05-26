@@ -4,6 +4,8 @@
    No frameworks. Just signals.
    ============================================ */
 
+import { contacts, privacySettings } from './data/mockData.js';
+
 class Store {
   constructor() {
     this.state = {
@@ -23,12 +25,19 @@ class Store {
       messagesScanned: 279,
       schoolStreak: 7,
       riskScore: 23,
-      liveAlerts: [], // Array of live threats that care giver should see
+      liveAlerts: [], // Array of live threats that caregiver should see
       scanning: false,
-      scanningMsg: ''
+      scanningMsg: '',
+      // Device customized family names (pre-loaded from localStorage or defaults)
+      seniorName: localStorage.getItem('guardli_senior_name') || 'Shikha',
+      caregiver1Name: localStorage.getItem('guardli_c1_name') || 'Shrestha',
+      caregiver2Name: localStorage.getItem('guardli_c2_name') || 'Shikhar'
     };
     this.listeners = new Map();
     this.nextToastId = 0;
+
+    // Sync mock contacts in memory with localStorage pre-sets immediately on load
+    this.syncMockDataNames();
   }
 
   get(key) {
@@ -70,6 +79,44 @@ class Store {
     this._notify('toasts', this.state.toasts);
   }
 
+  // ─── Setup Device Names Onboarding ───
+  updateFamilyNames(senior, c1, c2) {
+    localStorage.setItem('guardli_senior_name', senior);
+    localStorage.setItem('guardli_c1_name', c1);
+    localStorage.setItem('guardli_c2_name', c2);
+    localStorage.setItem('guardli_customized', 'true');
+
+    this.state.seniorName = senior;
+    this.state.caregiver1Name = c1;
+    this.state.caregiver2Name = c2;
+
+    this.syncMockDataNames();
+
+    this._notify('seniorName', senior);
+    this._notify('caregiver1Name', c1);
+    this._notify('caregiver2Name', c2);
+
+    this.addToast('Family setup complete! 🛡️', 'success', 3500);
+  }
+
+  syncMockDataNames() {
+    const senior = this.state.seniorName;
+    const c1 = this.state.caregiver1Name;
+    const c2 = this.state.caregiver2Name;
+
+    // Update contacts memory database reactively
+    const c1Contact = contacts.find(c => c.id === 'c001');
+    if (c1Contact) c1Contact.name = c1;
+
+    const c2Contact = contacts.find(c => c.id === 'c002');
+    if (c2Contact) c2Contact.name = c2;
+
+    const bookClubContact = contacts.find(c => c.id === 'c006');
+    if (bookClubContact) bookClubContact.name = `Book Club - ${senior}`;
+
+    privacySettings.caregiverName = c1;
+  }
+
   // ─── Real-Time Simulation Engine Actions ───
   triggerThreat(threatObj) {
     this.set('scanning', true);
@@ -106,7 +153,7 @@ class Store {
     // Dispatch real-world email alert!
     this.dispatchRealEmailAlert(
       '🛡️ Scam Threat Blocked',
-      `Guardli successfully blocked a high-risk ${threat.type.toUpperCase()} scam attempt from ${threat.sender} directed at Shikha.`
+      `Guardli successfully blocked a high-risk ${threat.type.toUpperCase()} scam attempt from ${threat.sender} directed at ${this.state.seniorName}.`
     );
 
     this.set('activeThreat', null);
@@ -114,12 +161,12 @@ class Store {
 
   triggerSOS() {
     this.set('sosActive', true);
-    this.addToast('Help is on the way. Shrestha and Shikhar have been notified. 🚨', 'warning', 6000);
+    this.addToast(`Help is on the way. ${this.state.caregiver1Name} and ${this.state.caregiver2Name} have been notified. 🚨`, 'warning', 6000);
 
     // Dispatch real-world SOS panic email alert!
     this.dispatchRealEmailAlert(
       '🚨 SOS PANIC EMERGENCY',
-      `Shikha has triggered the SOS Emergency Button on her Guardli Shield interface! Shrestha and Shikhar have been designated as contacts.`
+      `${this.state.seniorName} has triggered the SOS Emergency Button on her Guardli Shield interface! ${this.state.caregiver1Name} and ${this.state.caregiver2Name} have been designated as contacts.`
     );
   }
 
@@ -140,7 +187,7 @@ class Store {
       // Dispatch real-world Reply Coach email warning!
       this.dispatchRealEmailAlert(
         '⚠️ Conversation Reply Coached',
-        `Guardli intervened with real-time Reply Coaching before Shikha could reply to unverified romance scam contact: richard.hearts@gmail.com.`
+        `Guardli intervened with real-time Reply Coaching before ${this.state.seniorName} could reply to unverified romance scam contact: richard.hearts@gmail.com.`
       );
     }
   }
@@ -168,7 +215,7 @@ class Store {
         template_id: TEMPLATE_ID,
         user_id: PUBLIC_KEY,
         template_params: {
-          to_name: 'Caregiver (Shrestha & Shikhar)',
+          to_name: `Caregiver (${this.state.caregiver1Name} & ${this.state.caregiver2Name})`,
           from_name: 'Guardli Digital Guardian',
           alert_type: alertType,
           message: messageText
